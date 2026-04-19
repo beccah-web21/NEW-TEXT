@@ -98,40 +98,29 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const menuLinks = document.querySelectorAll('.header__menu-item');
-    const handleToSectionId = {
-      'home': '#home',
-      'services': '#services',
-      'portfolio': '#portfolio',
-      'about': '#about',
-      'contact': '#contact'
-    };
-    
-    function getTargetId(linkHandle) {
-      return handleToSectionId[linkHandle] || null;
-    }
+    const sectionIds = ['home', 'services', 'portfolio', 'about', 'contact'];
     
     menuLinks.forEach(link => {
       link.addEventListener('click', function(e) {
         const handle = this.getAttribute('data-link-handle');
-        const targetId = getTargetId(handle);
         const href = this.getAttribute('href') || '';
         
         menuLinks.forEach(l => l.classList.remove('active'));
         this.classList.add('active');
         
-        if (targetId && (href === '#' + handle.replace(' ', '-').toLowerCase() || href.startsWith('#'))) {
+        const targetId = '#' + handle;
+        const targetSection = document.querySelector(targetId);
+        
+        if (targetSection) {
           e.preventDefault();
-          const targetSection = document.querySelector(targetId);
-          if (targetSection) {
-            targetSection.scrollIntoView({ behavior: 'smooth' });
-            history.pushState(null, null, targetId);
-          }
-        } else if (targetId && href === targetId) {
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+          history.pushState(null, null, targetId);
+        } else if (href.startsWith('#')) {
           e.preventDefault();
-          const targetSection = document.querySelector(targetId);
-          if (targetSection) {
-            targetSection.scrollIntoView({ behavior: 'smooth' });
-            history.pushState(null, null, targetId);
+          const directTarget = document.querySelector(href);
+          if (directTarget) {
+            directTarget.scrollIntoView({ behavior: 'smooth' });
+            history.pushState(null, null, href);
           }
         }
       });
@@ -141,8 +130,7 @@
     if (urlHash) {
       const matchingLink = Array.from(menuLinks).find(link => {
         const handle = link.getAttribute('data-link-handle');
-        const targetId = getTargetId(handle);
-        return targetId === urlHash;
+        return '#' + handle === urlHash;
       });
       if (matchingLink) {
         matchingLink.classList.add('active');

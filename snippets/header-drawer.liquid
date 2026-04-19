@@ -124,6 +124,7 @@
                       id="HeaderDrawer-{{ link.handle }}"
                       href="{{ link.url }}"
                       class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                      data-link-handle="{{ link.handle }}"
                       {% if link.current %}
                         aria-current="page"
                       {% endif %}
@@ -293,3 +294,39 @@
     </div>
   </details>
 </header-drawer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const drawerLinks = document.querySelectorAll('.menu-drawer__menu-item[data-link-handle]');
+    
+    drawerLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        const handle = this.getAttribute('data-link-handle');
+        const targetId = '#' + handle;
+        const targetSection = document.querySelector(targetId);
+        
+        drawerLinks.forEach(l => l.classList.remove('menu-drawer__menu-item--active'));
+        this.classList.add('menu-drawer__menu-item--active');
+        
+        if (targetSection) {
+          e.preventDefault();
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+          history.pushState(null, null, targetId);
+          
+          document.querySelector('details#Details-menu-drawer-container').removeAttribute('open');
+        }
+      });
+    });
+    
+    const urlHash = window.location.hash;
+    if (urlHash) {
+      const matchingLink = Array.from(drawerLinks).find(link => {
+        const handle = link.getAttribute('data-link-handle');
+        return '#' + handle === urlHash;
+      });
+      if (matchingLink) {
+        matchingLink.classList.add('menu-drawer__menu-item--active');
+      }
+    }
+  });
+</script>

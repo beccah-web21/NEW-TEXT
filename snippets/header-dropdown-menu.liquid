@@ -15,6 +15,7 @@
               <summary
                 id="HeaderMenu-{{ link.handle }}"
                 class="header__menu-item list-menu__item link focus-inset"
+                data-link-handle="{{ link.handle }}"
               >
                 <span
                   {%- if link.child_active %}
@@ -84,6 +85,7 @@
             id="HeaderMenu-{{ link.handle }}"
             href="{{ link.url }}"
             class="header__menu-item list-menu__item link link--text focus-inset"
+            data-link-handle="{{ link.handle }}"
             {% if link.current %}
               aria-current="page"
             {% endif %}
@@ -101,3 +103,46 @@
     {%- endfor -%}
   </ul>
 </nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuLinks = document.querySelectorAll('.header__menu-item');
+    
+    menuLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        const handle = this.getAttribute('data-link-handle');
+        const href = this.getAttribute('href') || '';
+        
+        menuLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        
+        const targetId = '#' + handle;
+        const targetSection = document.querySelector(targetId);
+        
+        if (targetSection) {
+          e.preventDefault();
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+          history.pushState(null, null, targetId);
+        } else if (href.startsWith('#')) {
+          e.preventDefault();
+          const directTarget = document.querySelector(href);
+          if (directTarget) {
+            directTarget.scrollIntoView({ behavior: 'smooth' });
+            history.pushState(null, null, href);
+          }
+        }
+      });
+    });
+    
+    const urlHash = window.location.hash;
+    if (urlHash) {
+      const matchingLink = Array.from(menuLinks).find(link => {
+        const handle = link.getAttribute('data-link-handle');
+        return '#' + handle === urlHash;
+      });
+      if (matchingLink) {
+        matchingLink.classList.add('active');
+      }
+    }
+  });
+</script>
