@@ -1,0 +1,545 @@
+{% doc %}
+  @prompt
+    create a card image slider taht has 4 cards where i can put the image and text on the card, make it 1 card per slide. and the imagand card size should be the same , make it 1 card per slide.its like the sliding image but with cards. it should be a total of 4 cards but make it slidabel , make it 1 card per slide.its like the sliding image but with cards. it should be a total of 4 cards but make it slidable. also put a setting to change the cards size and gaps 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-card-slider-{{ ai_gen_id }} {
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 0;
+  }
+
+  .ai-card-slider__wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    max-width: {{ block.settings.card_width }}px;
+    margin: 0 auto;
+    padding: 0 {{ block.settings.card_gap }}px;
+  }
+
+  .ai-card-slider__track-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.card_gap }}px;
+    transition: transform 0.5s ease;
+  }
+
+  .ai-card-slider__card-{{ ai_gen_id }} {
+    flex: 0 0 calc(100% - {{ block.settings.card_gap }}px);
+    background-color: {{ block.settings.card_background_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-card-slider__image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    height: {{ block.settings.image_height }}px;
+    overflow: hidden;
+    background-color: #f4f4f4;
+    position: relative;
+  }
+
+  .ai-card-slider__image-wrapper-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-card-slider__image-wrapper-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-card-slider__content-{{ ai_gen_id }} {
+    padding: {{ block.settings.card_padding }}px;
+    min-height: {{ block.settings.content_height }}px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .ai-card-slider__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 8px 0;
+    font-weight: 600;
+  }
+
+  .ai-card-slider__text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .ai-card-slider__nav-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: {{ block.settings.nav_button_color }};
+    color: {{ block.settings.nav_button_icon_color }};
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-card-slider__nav-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.nav_button_hover_color }};
+  }
+
+  .ai-card-slider__nav-{{ ai_gen_id }}:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .ai-card-slider__nav--prev-{{ ai_gen_id }} {
+    left: -50px;
+  }
+
+  .ai-card-slider__nav--next-{{ ai_gen_id }} {
+    right: -50px;
+  }
+
+  .ai-card-slider__dots-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .ai-card-slider__dot-{{ ai_gen_id }} {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: {{ block.settings.dot_color }};
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.3;
+  }
+
+  .ai-card-slider__dot-{{ ai_gen_id }}.active {
+    opacity: 1;
+    background-color: {{ block.settings.dot_active_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-card-slider__nav--prev-{{ ai_gen_id }} {
+      left: 10px;
+    }
+
+    .ai-card-slider__nav--next-{{ ai_gen_id }} {
+      right: 10px;
+    }
+
+    .ai-card-slider__image-wrapper-{{ ai_gen_id }} {
+      height: {{ block.settings.image_height | times: 0.7 }}px;
+    }
+
+    .ai-card-slider__content-{{ ai_gen_id }} {
+      min-height: {{ block.settings.content_height | times: 0.7 }}px;
+    }
+  }
+{% endstyle %}
+
+<card-slider-{{ ai_gen_id }} class="ai-card-slider-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-card-slider__wrapper-{{ ai_gen_id }}">
+    <button
+      class="ai-card-slider__nav-{{ ai_gen_id }} ai-card-slider__nav--prev-{{ ai_gen_id }}"
+      aria-label="Previous slide"
+      data-nav="prev"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+
+    <div class="ai-card-slider__track-{{ ai_gen_id }}">
+      {% for i in (1..4) %}
+        {% liquid
+          assign card_image_key = 'card_' | append: i | append: '_image'
+          assign card_title_key = 'card_' | append: i | append: '_title'
+          assign card_text_key = 'card_' | append: i | append: '_text'
+
+          assign card_image = block.settings[card_image_key]
+          assign card_title = block.settings[card_title_key]
+          assign card_text = block.settings[card_text_key]
+        %}
+
+        <div class="ai-card-slider__card-{{ ai_gen_id }}">
+          <div class="ai-card-slider__image-wrapper-{{ ai_gen_id }}">
+            {% if card_image %}
+              <img
+                src="{{ card_image | image_url: width: 1200 }}"
+                alt="{{ card_image.alt | escape }}"
+                loading="lazy"
+                width="1200"
+                height="{{ block.settings.image_height }}"
+              >
+            {% else %}
+              {{ 'image' | placeholder_svg_tag }}
+            {% endif %}
+          </div>
+          <div class="ai-card-slider__content-{{ ai_gen_id }}">
+            {% if card_title != blank %}
+              <h3 class="ai-card-slider__title-{{ ai_gen_id }}">{{ card_title }}</h3>
+            {% endif %}
+            {% if card_text != blank %}
+              <p class="ai-card-slider__text-{{ ai_gen_id }}">{{ card_text }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <button
+      class="ai-card-slider__nav-{{ ai_gen_id }} ai-card-slider__nav--next-{{ ai_gen_id }}"
+      aria-label="Next slide"
+      data-nav="next"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </div>
+
+  <div class="ai-card-slider__dots-{{ ai_gen_id }}">
+    {% for i in (1..4) %}
+      <button 
+        class="ai-card-slider__dot-{{ ai_gen_id }}{% if forloop.first %} active{% endif %}" 
+        data-index="{{ forloop.index0 }}" 
+        aria-label="Go to slide {{ forloop.index }}"
+      ></button>
+    {% endfor %}
+  </div>
+</card-slider-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CardSlider{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentIndex = 0;
+        this.track = this.querySelector('.ai-card-slider__track-{{ ai_gen_id }}');
+        this.cards = this.querySelectorAll('.ai-card-slider__card-{{ ai_gen_id }}');
+        this.prevButton = this.querySelector('[data-nav="prev"]');
+        this.nextButton = this.querySelector('[data-nav="next"]');
+        this.dots = this.querySelectorAll('.ai-card-slider__dot-{{ ai_gen_id }}');
+      }
+
+      connectedCallback() {
+        this.setupEventListeners();
+        this.updateSlider();
+      }
+
+      setupEventListeners() {
+        this.prevButton.addEventListener('click', () => this.prev());
+        this.nextButton.addEventListener('click', () => this.next());
+        
+        this.dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => this.goToSlide(index));
+        });
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => this.updateSlider(), 100);
+        });
+      }
+
+      prev() {
+        if (this.currentIndex > 0) {
+          this.currentIndex--;
+          this.updateSlider();
+        }
+      }
+
+      next() {
+        if (this.currentIndex < this.cards.length - 1) {
+          this.currentIndex++;
+          this.updateSlider();
+        }
+      }
+
+      goToSlide(index) {
+        this.currentIndex = index;
+        this.updateSlider();
+      }
+
+      updateSlider() {
+        const cardWidth = this.cards[0].offsetWidth;
+        const gap = parseInt(getComputedStyle(this.track).gap) || 0;
+        const offset = this.currentIndex * (cardWidth + gap);
+
+        this.track.style.transform = `translateX(-${offset}px)`;
+
+        this.prevButton.disabled = this.currentIndex === 0;
+        this.nextButton.disabled = this.currentIndex >= this.cards.length - 1;
+
+        this.dots.forEach((dot, index) => {
+          if (index === this.currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+    }
+
+    customElements.define('card-slider-{{ ai_gen_id }}', CardSlider{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Card image slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "card_width",
+      "label": "Card width",
+      "min": 300,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card gap",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Image height",
+      "min": 200,
+      "max": 600,
+      "step": 20,
+      "unit": "px",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "content_height",
+      "label": "Content min height",
+      "min": 100,
+      "max": 400,
+      "step": 20,
+      "unit": "px",
+      "default": 180
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_1_title",
+      "label": "Title",
+      "default": "Card 1 Title"
+    },
+    {
+      "type": "textarea",
+      "id": "card_1_text",
+      "label": "Text",
+      "default": "Add a description for this card."
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_2_title",
+      "label": "Title",
+      "default": "Card 2 Title"
+    },
+    {
+      "type": "textarea",
+      "id": "card_2_text",
+      "label": "Text",
+      "default": "Add a description for this card."
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_3_title",
+      "label": "Title",
+      "default": "Card 3 Title"
+    },
+    {
+      "type": "textarea",
+      "id": "card_3_text",
+      "label": "Text",
+      "default": "Add a description for this card."
+    },
+    {
+      "type": "header",
+      "content": "Card 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_4_title",
+      "label": "Title",
+      "default": "Card 4 Title"
+    },
+    {
+      "type": "textarea",
+      "id": "card_4_text",
+      "label": "Text",
+      "default": "Add a description for this card."
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#0e1b4d"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Content padding",
+      "min": 8,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 12,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_color",
+      "label": "Button background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_hover_color",
+      "label": "Button hover background",
+      "default": "#eff0f5"
+    },
+    {
+      "type": "color",
+      "id": "nav_button_icon_color",
+      "label": "Button icon",
+      "default": "#0e1b4d"
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot color",
+      "default": "#0e1b4d"
+    },
+    {
+      "type": "color",
+      "id": "dot_active_color",
+      "label": "Active dot color",
+      "default": "#4770db"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Card image slider"
+    }
+  ]
+}
+{% endschema %}

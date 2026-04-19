@@ -1,0 +1,442 @@
+{% doc %}
+  @prompt
+    make a section for 4 sliding image and include a title it and also put a settings where I can adjust the image size, height, and gap, make each image fill the section and also put arrows to make it clickable for the next slide, make each image fill the section and also put arrows to make it clickable for the next slide and also  but still put a gabp and padding left and right and also put a setting where i can just the padding, hight, of each image and the gap
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-sliding-images-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    padding: 0 {{ block.settings.section_padding }}px;
+  }
+
+  .ai-sliding-images__container-{{ ai_gen_id }} {
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .ai-sliding-images__title-{{ ai_gen_id }} {
+    text-align: center;
+    margin: 0 0 30px;
+    padding: 40px 20px 0;
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+  }
+
+  .ai-sliding-images__slider-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    height: {{ block.settings.image_height }}px;
+  }
+
+  .ai-sliding-images__slider-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.image_gap }}px;
+    height: 100%;
+    transition: transform 0.5s ease;
+  }
+
+  .ai-sliding-images__slide-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: calc(100% - {{ block.settings.image_gap }}px);
+    height: 100%;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-sliding-images__slide-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-sliding-images__placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-sliding-images__placeholder-{{ ai_gen_id }} svg {
+    width: 200px;
+    height: 200px;
+    opacity: 0.3;
+  }
+
+  .ai-sliding-images__arrow-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: {{ block.settings.arrow_background_color }};
+    color: {{ block.settings.arrow_color }};
+    border: none;
+    width: {{ block.settings.arrow_size }}px;
+    height: {{ block.settings.arrow_size }}px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0.9;
+  }
+
+  .ai-sliding-images__arrow-{{ ai_gen_id }}:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .ai-sliding-images__arrow-{{ ai_gen_id }}--prev {
+    left: 20px;
+  }
+
+  .ai-sliding-images__arrow-{{ ai_gen_id }}--next {
+    right: 20px;
+  }
+
+  .ai-sliding-images__arrow-{{ ai_gen_id }} svg {
+    width: 50%;
+    height: 50%;
+  }
+
+  .ai-sliding-images__dots-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 0;
+  }
+
+  .ai-sliding-images__dot-{{ ai_gen_id }} {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: {{ block.settings.dot_color }};
+    opacity: 0.3;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .ai-sliding-images__dot-{{ ai_gen_id }}.active {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-sliding-images-{{ ai_gen_id }} {
+      padding: 0 {{ block.settings.section_padding | times: 0.5 }}px;
+    }
+
+    .ai-sliding-images__slider-wrapper-{{ ai_gen_id }} {
+      height: {{ block.settings.image_height | times: 0.6 }}px;
+    }
+
+    .ai-sliding-images__arrow-{{ ai_gen_id }} {
+      width: {{ block.settings.arrow_size | times: 0.8 }}px;
+      height: {{ block.settings.arrow_size | times: 0.8 }}px;
+    }
+
+    .ai-sliding-images__arrow-{{ ai_gen_id }}--prev {
+      left: 10px;
+    }
+
+    .ai-sliding-images__arrow-{{ ai_gen_id }}--next {
+      right: 10px;
+    }
+  }
+{% endstyle %}
+
+<sliding-images-{{ ai_gen_id }}
+  class="ai-sliding-images-{{ ai_gen_id }}"
+  data-gap="{{ block.settings.image_gap }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-sliding-images__container-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h2 class="ai-sliding-images__title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+    {% endif %}
+
+    <div class="ai-sliding-images__slider-wrapper-{{ ai_gen_id }}">
+      <div class="ai-sliding-images__slider-{{ ai_gen_id }}">
+        {% for i in (1..4) %}
+          {% liquid
+            assign image_key = 'image_' | append: i
+            assign image = block.settings[image_key]
+          %}
+          <div class="ai-sliding-images__slide-{{ ai_gen_id }}" data-slide="{{ i }}">
+            {% if image %}
+              <img
+                src="{{ image | image_url: width: 2000 }}"
+                alt="{{ image.alt | escape }}"
+                loading="lazy"
+                width="2000"
+                height="{{ block.settings.image_height }}"
+              >
+            {% else %}
+              <div class="ai-sliding-images__placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <button
+        class="ai-sliding-images__arrow-{{ ai_gen_id }} ai-sliding-images__arrow-{{ ai_gen_id }}--prev"
+        aria-label="Previous slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <button
+        class="ai-sliding-images__arrow-{{ ai_gen_id }} ai-sliding-images__arrow-{{ ai_gen_id }}--next"
+        aria-label="Next slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+    <div class="ai-sliding-images__dots-{{ ai_gen_id }}">
+      {% for i in (1..4) %}
+        <button
+          class="ai-sliding-images__dot-{{ ai_gen_id }} {% if i == 1 %}active{% endif %}"
+          data-slide="{{ i }}"
+          aria-label="Go to slide {{ i }}"
+        ></button>
+      {% endfor %}
+    </div>
+  </div>
+</sliding-images-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class SlidingImages{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentSlide = 0;
+        this.totalSlides = 4;
+      }
+
+      connectedCallback() {
+        this.slider = this.querySelector('.ai-sliding-images__slider-{{ ai_gen_id }}');
+        this.prevButton = this.querySelector('.ai-sliding-images__arrow-{{ ai_gen_id }}--prev');
+        this.nextButton = this.querySelector('.ai-sliding-images__arrow-{{ ai_gen_id }}--next');
+        this.dots = this.querySelectorAll('.ai-sliding-images__dot-{{ ai_gen_id }}');
+        this.gap = parseInt(this.getAttribute('data-gap')) || 0;
+
+        this.prevButton.addEventListener('click', () => this.goToPrevSlide());
+        this.nextButton.addEventListener('click', () => this.goToNextSlide());
+
+        this.dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => this.goToSlide(index));
+        });
+
+        this.updateSlider();
+      }
+
+      goToPrevSlide() {
+        this.currentSlide = this.currentSlide === 0 ? this.totalSlides - 1 : this.currentSlide - 1;
+        this.updateSlider();
+      }
+
+      goToNextSlide() {
+        this.currentSlide = this.currentSlide === this.totalSlides - 1 ? 0 : this.currentSlide + 1;
+        this.updateSlider();
+      }
+
+      goToSlide(index) {
+        this.currentSlide = index;
+        this.updateSlider();
+      }
+
+      updateSlider() {
+        const slideWidth = this.slider.parentElement.offsetWidth;
+        const offset = -(this.currentSlide * (slideWidth + this.gap));
+        this.slider.style.transform = `translateX(${offset}px)`;
+
+        this.dots.forEach((dot, index) => {
+          if (index === this.currentSlide) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+    }
+
+    customElements.define('sliding-images-{{ ai_gen_id }}', SlidingImages{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Sliding images",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "Our Gallery"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#0e1b4d"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image 4"
+    },
+    {
+      "type": "header",
+      "content": "Image settings"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Height",
+      "min": 200,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "image_gap",
+      "label": "Gap between images",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Left and right padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Navigation arrows"
+    },
+    {
+      "type": "range",
+      "id": "arrow_size",
+      "label": "Arrow size",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "arrow_background_color",
+      "label": "Arrow background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow color",
+      "default": "#0e1b4d"
+    },
+    {
+      "type": "header",
+      "content": "Dots"
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot color",
+      "default": "#0e1b4d"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sliding images"
+    }
+  ]
+}
+{% endschema %}
