@@ -80,6 +80,23 @@
     font-size: {{ block.settings.link_size }}px;
     font-weight: {{ block.settings.link_weight }};
     transition: color 0.3s ease;
+    position: relative;
+  }
+
+  .ai-portfolio-nav__link-{{ ai_gen_id }}::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: {{ block.settings.hover_color }};
+    transition: width 0.3s ease;
+  }
+
+  .ai-portfolio-nav__link-{{ ai_gen_id }}:hover::after,
+  .ai-portfolio-nav__link-{{ ai_gen_id }}.active::after {
+    width: 100%;
   }
 
   .ai-portfolio-nav__link-{{ ai_gen_id }}:hover {
@@ -187,7 +204,7 @@
         {% if block.settings.link_1_text != blank %}
           <li class="ai-portfolio-nav__menu-item-{{ ai_gen_id }}">
             <a
-              href="{{ block.settings.link_1_url }}"
+              href="#home"
               class="ai-portfolio-nav__link-{{ ai_gen_id }}"
             >
               {{ block.settings.link_1_text }}
@@ -197,7 +214,7 @@
         {% if block.settings.link_2_text != blank %}
           <li class="ai-portfolio-nav__menu-item-{{ ai_gen_id }}">
             <a
-              href="{{ block.settings.link_2_url }}"
+              href="#about"
               class="ai-portfolio-nav__link-{{ ai_gen_id }}"
             >
               {{ block.settings.link_2_text }}
@@ -207,7 +224,7 @@
         {% if block.settings.link_3_text != blank %}
           <li class="ai-portfolio-nav__menu-item-{{ ai_gen_id }}">
             <a
-              href="{{ block.settings.link_3_url }}"
+              href="#services"
               class="ai-portfolio-nav__link-{{ ai_gen_id }}"
             >
               {{ block.settings.link_3_text }}
@@ -217,7 +234,7 @@
         {% if block.settings.link_4_text != blank %}
           <li class="ai-portfolio-nav__menu-item-{{ ai_gen_id }}">
             <a
-              href="{{ block.settings.link_4_url }}"
+              href="#portfolio"
               class="ai-portfolio-nav__link-{{ ai_gen_id }}"
             >
               {{ block.settings.link_4_text }}
@@ -227,7 +244,7 @@
         {% if block.settings.link_5_text != blank %}
           <li class="ai-portfolio-nav__menu-item-{{ ai_gen_id }}">
             <a
-              href="{{ block.settings.link_5_url }}"
+              href="#what-i-bring"
               class="ai-portfolio-nav__link-{{ ai_gen_id }}"
             >
               {{ block.settings.link_5_text }}
@@ -237,7 +254,7 @@
         {% if block.settings.link_6_text != blank %}
           <li class="ai-portfolio-nav__menu-item-{{ ai_gen_id }}">
             <a
-              href="{{ block.settings.link_6_url }}"
+              href="#contact"
               class="ai-portfolio-nav__link-{{ ai_gen_id }}"
             >
               {{ block.settings.link_6_text }}
@@ -259,9 +276,19 @@
       connectedCallback() {
         this.toggle = this.querySelector('.ai-portfolio-nav__mobile-toggle-{{ ai_gen_id }}');
         this.menu = this.querySelector('.ai-portfolio-nav__menu-{{ ai_gen_id }}');
+        this.links = this.querySelectorAll('.ai-portfolio-nav__link-{{ ai_gen_id }}');
         
         if (this.toggle && this.menu) {
           this.toggle.addEventListener('click', this.toggleMenu.bind(this));
+        }
+        
+        this.links.forEach(link => {
+          link.addEventListener('click', this.handleLinkClick.bind(this));
+        });
+        
+        const urlHash = window.location.hash;
+        if (urlHash) {
+          this.setActiveLink(urlHash);
         }
       }
 
@@ -269,6 +296,30 @@
         const isActive = this.menu.classList.contains('active');
         this.menu.classList.toggle('active');
         this.toggle.setAttribute('aria-expanded', !isActive);
+      }
+
+      handleLinkClick(e) {
+        const href = e.currentTarget.getAttribute('href');
+        
+        if (href && href.startsWith('#')) {
+          const targetSection = document.querySelector(href);
+          
+          this.links.forEach(l => l.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          
+          if (targetSection) {
+            e.preventDefault();
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+            history.pushState(null, null, href);
+          }
+        }
+      }
+
+      setActiveLink(hash) {
+        const activeLink = Array.from(this.links).find(link => link.getAttribute('href') === hash);
+        if (activeLink) {
+          activeLink.classList.add('active');
+        }
       }
     }
 
