@@ -11,10 +11,68 @@
   "sections": {
     "main": {
       "type": "main-page",
+      "disabled": true,
       "settings": {
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "177666618521917452": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_9d2a2bc_XnETKj": {
+          "type": "ai_gen_block_9d2a2bc",
+          "settings": {
+            "section_padding_top": 50,
+            "section_padding_bottom": 50,
+            "background_color": "#ffffff",
+            "container_max_width": 1200,
+            "heading": "Our Freight Services",
+            "subheading": "Reliable shipping solutions for your business needs",
+            "text_alignment": "center",
+            "heading_size": 36,
+            "heading_color": "#0e1b4d",
+            "heading_margin_bottom": 10,
+            "subheading_size": 18,
+            "subheading_color": "#666666",
+            "header_margin_bottom": 40,
+            "card_gap": 30,
+            "card_padding": 25,
+            "card_height": 400,
+            "card_background_color": "#ffffff",
+            "card_border_radius": 18,
+            "card_border_width": 1,
+            "card_border_color": "#e0e0e0",
+            "card_active_border_color": "#4770db",
+            "image_width": 100,
+            "image_height": 200,
+            "image_border_radius": 12,
+            "image_margin_bottom": 20,
+            "card_heading_size": 20,
+            "card_heading_color": "#0e1b4d",
+            "card_heading_margin_bottom": 12,
+            "card_text_size": 15,
+            "card_text_color": "#666666",
+            "card_1_heading": "LTL/FTL Rate Requests",
+            "card_1_text": "Request and analyze carrier rates across multiple sources to secure the most competitive pricing. Evaluate transit times, service levels, and lane efficiency to ensure cost-effective and reliable shipping options.",
+            "card_2_heading": "Freight Quoting Assistance",
+            "card_2_text": "Prepare accurate and well-structured freight quotes with clear pricing breakdowns. Ensure all details—accessorials, margins, and service requirements—are properly accounted for to support confident decision-making.",
+            "card_3_heading": "Carrier Coordination",
+            "card_3_text": "Coordinating with Carriers to secure capacity, negotiate rates, and confirm load details. Maintain strong coordination to ensure timely pickups, smooth transit, and reliable delivery performance.",
+            "card_4_heading": "Load Board Support",
+            "card_4_text": "Navigate load boards to identify viable opportunities, analyze lanes, and assess profitability. Apply strategic filtering and evaluation to match the right carriers with the right loads.",
+            "card_5_heading": "Documentation Management",
+            "card_5_text": "Organize and manage essential freight documents including BOLs, PODs, COIs, and load notes. Ensure all paperwork is complete, accurate, and readily accessible for smooth operations and compliance.",
+            "card_6_heading": "Shipment Process Support",
+            "card_6_text": "Provide end-to-end operational support from TMS entry and load booking to real-time tracking and delivery updates. Help keep shipments on schedule through proactive monitoring and communication."
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_9d2a2bc_XnETKj"
+      ],
+      "settings": {}
     },
     "1776666069ae2ca69c": {
       "type": "_blocks",
@@ -23,6 +81,7 @@
   },
   "order": [
     "main",
+    "177666618521917452",
     "1776666069ae2ca69c"
   ]
 }
