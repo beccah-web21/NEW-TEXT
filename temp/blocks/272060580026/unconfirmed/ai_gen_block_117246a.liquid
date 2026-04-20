@@ -1,6 +1,463 @@
+{% doc %}
+  @prompt
+    create  a new navbar section that has the logo text on the left and the menu options on the right naming services,portfolio,about and contact. note that each menu options should be clickable and can be redirected to a certainn page or section of the whole website
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-navbar-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+    position: {{ block.settings.position }};
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, {{ block.settings.shadow_opacity }});
+  }
+
+  .ai-navbar-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ai-navbar-logo-{{ ai_gen_id }} {
+    font-size: {{ block.settings.logo_font_size }}px;
+    font-weight: {{ block.settings.logo_font_weight }};
+    color: {{ block.settings.logo_color }};
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .ai-navbar-logo-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.logo_hover_color }};
+  }
+
+  .ai-navbar-menu-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.menu_gap }}px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ai-navbar-menu-item-{{ ai_gen_id }} {
+    margin: 0;
+  }
+
+  .ai-navbar-menu-link-{{ ai_gen_id }} {
+    font-size: {{ block.settings.menu_font_size }}px;
+    font-weight: {{ block.settings.menu_font_weight }};
+    color: {{ block.settings.menu_color }};
+    text-decoration: none;
+    padding: {{ block.settings.menu_item_padding }}px;
+    border-radius: {{ block.settings.menu_item_radius }}px;
+    transition: all 0.3s ease;
+    display: block;
+  }
+
+  .ai-navbar-menu-link-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.menu_hover_color }};
+    background-color: {{ block.settings.menu_hover_bg }};
+  }
+
+  .ai-navbar-mobile-toggle-{{ ai_gen_id }} {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: {{ block.settings.menu_color }};
+  }
+
+  .ai-navbar-mobile-toggle-{{ ai_gen_id }} svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-navbar-mobile-toggle-{{ ai_gen_id }} {
+      display: block;
+    }
+
+    .ai-navbar-menu-{{ ai_gen_id }} {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: {{ block.settings.background_color }};
+      flex-direction: column;
+      gap: 0;
+      padding: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+    }
+
+    .ai-navbar-menu-{{ ai_gen_id }}.active {
+      max-height: 400px;
+      opacity: 1;
+    }
+
+    .ai-navbar-menu-item-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-navbar-menu-link-{{ ai_gen_id }} {
+      width: 100%;
+      padding: 12px;
+    }
+  }
+{% endstyle %}
+
+<navbar-{{ ai_gen_id }} class="ai-navbar-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-navbar-container-{{ ai_gen_id }}">
+    <a href="{{ block.settings.logo_link }}" class="ai-navbar-logo-{{ ai_gen_id }}">
+      {{ block.settings.logo_text }}
+    </a>
+
+    <button
+      class="ai-navbar-mobile-toggle-{{ ai_gen_id }}"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <nav>
+      <ul class="ai-navbar-menu-{{ ai_gen_id }}">
+        <li class="ai-navbar-menu-item-{{ ai_gen_id }}">
+          <a href="{{ block.settings.services_link }}" class="ai-navbar-menu-link-{{ ai_gen_id }}">
+            {{ block.settings.services_text }}
+          </a>
+        </li>
+        <li class="ai-navbar-menu-item-{{ ai_gen_id }}">
+          <a href="{{ block.settings.portfolio_link }}" class="ai-navbar-menu-link-{{ ai_gen_id }}">
+            {{ block.settings.portfolio_text }}
+          </a>
+        </li>
+        <li class="ai-navbar-menu-item-{{ ai_gen_id }}">
+          <a href="{{ block.settings.about_link }}" class="ai-navbar-menu-link-{{ ai_gen_id }}">
+            {{ block.settings.about_text }}
+          </a>
+        </li>
+        <li class="ai-navbar-menu-item-{{ ai_gen_id }}">
+          <a href="{{ block.settings.contact_link }}" class="ai-navbar-menu-link-{{ ai_gen_id }}">
+            {{ block.settings.contact_text }}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</navbar-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class Navbar{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.toggle = this.querySelector('.ai-navbar-mobile-toggle-{{ ai_gen_id }}');
+        this.menu = this.querySelector('.ai-navbar-menu-{{ ai_gen_id }}');
+        
+        if (this.toggle && this.menu) {
+          this.toggle.addEventListener('click', this.toggleMenu.bind(this));
+        }
+      }
+
+      toggleMenu() {
+        const isActive = this.menu.classList.contains('active');
+        this.menu.classList.toggle('active');
+        this.toggle.setAttribute('aria-expanded', !isActive);
+      }
+    }
+
+    customElements.define('navbar-{{ ai_gen_id }}', Navbar{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Navbar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "Your Brand"
+    },
+    {
+      "type": "url",
+      "id": "logo_link",
+      "label": "Logo link"
+    },
+    {
+      "type": "range",
+      "id": "logo_font_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Logo font size",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "logo_font_weight",
+      "label": "Logo font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "logo_color",
+      "label": "Logo color",
+      "default": "#0e1b4d"
+    },
+    {
+      "type": "color",
+      "id": "logo_hover_color",
+      "label": "Logo hover color",
+      "default": "#4770db"
+    },
+    {
+      "type": "header",
+      "content": "Menu items"
+    },
+    {
+      "type": "text",
+      "id": "services_text",
+      "label": "Services text",
+      "default": "Services"
+    },
+    {
+      "type": "url",
+      "id": "services_link",
+      "label": "Services link"
+    },
+    {
+      "type": "text",
+      "id": "portfolio_text",
+      "label": "Portfolio text",
+      "default": "Portfolio"
+    },
+    {
+      "type": "url",
+      "id": "portfolio_link",
+      "label": "Portfolio link"
+    },
+    {
+      "type": "text",
+      "id": "about_text",
+      "label": "About text",
+      "default": "About"
+    },
+    {
+      "type": "url",
+      "id": "about_link",
+      "label": "About link"
+    },
+    {
+      "type": "text",
+      "id": "contact_text",
+      "label": "Contact text",
+      "default": "Contact"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Contact link"
+    },
+    {
+      "type": "header",
+      "content": "Menu style"
+    },
+    {
+      "type": "range",
+      "id": "menu_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Menu font size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "menu_font_weight",
+      "label": "Menu font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "menu_gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Menu gap",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "menu_item_padding",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Menu item padding",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "menu_item_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Menu item radius",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "menu_color",
+      "label": "Menu color",
+      "default": "#0e1b4d"
+    },
+    {
+      "type": "color",
+      "id": "menu_hover_color",
+      "label": "Menu hover color",
+      "default": "#4770db"
+    },
+    {
+      "type": "color",
+      "id": "menu_hover_bg",
+      "label": "Menu hover background",
+      "default": "#eff0f5"
+    },
+    {
+      "type": "header",
+      "content": "Navbar style"
+    },
+    {
+      "type": "select",
+      "id": "position",
+      "label": "Position",
+      "options": [
+        {
+          "value": "relative",
+          "label": "Relative"
+        },
+        {
+          "value": "sticky",
+          "label": "Sticky"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed"
+        }
+      ],
+      "default": "sticky"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 8,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Max width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "shadow_opacity",
+      "min": 0,
+      "max": 0.5,
+      "step": 0.1,
+      "label": "Shadow opacity",
+      "default": 0.1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Navbar"
+    }
+  ]
+}
 {% endschema %}
