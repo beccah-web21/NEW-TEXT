@@ -9,64 +9,49 @@
  */
 {
   "sections": {
-    "image_with_text_pQKBDw": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading_77fzQ8": {
-          "type": "heading",
-          "settings": {
-            "heading": "About Me",
-            "heading_size": "h1"
-          }
-        },
-        "text_PfLQcw": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Welcome to my story. Share your journey, values, and what makes you unique. This is your space to connect with your audience and tell them why they should care about your brand or business.</p>",
-            "text_style": "body"
-          }
-        },
-        "button_jCiLLF": {
-          "type": "button",
-          "settings": {
-            "button_label": "Learn More",
-            "button_link": "",
-            "button_style_secondary": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_77fzQ8",
-        "text_PfLQcw",
-        "button_jCiLLF"
-      ],
-      "name": "t:sections.image-with-text.presets.name",
-      "settings": {
-        "height": "adapt",
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "image_behavior": "none",
-        "content_layout": "no-overlap",
-        "desktop_content_position": "top",
-        "desktop_content_alignment": "left",
-        "mobile_content_alignment": "left",
-        "section_color_scheme": "",
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
     "main": {
       "type": "main-page",
+      "disabled": true,
       "name": "About",
       "settings": {
         "padding_top": 36,
         "padding_bottom": 28
       }
+    },
+    "177666789672d3db0b": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_b248e2c_bk4LrM": {
+          "type": "ai_gen_block_b248e2c",
+          "settings": {
+            "image": "shopify://shop_images/me.jpg",
+            "image_border_radius": 20,
+            "heading": "Get To Know Beccah",
+            "text": "<p>Behind every on-time delivery is a system that’s organized, responsive, and built to run efficiently — that’s the standard I bring to every shipment.</p><p>I’m Rebeccah Gonzales, a Freight Operations Specialist with a strong foundation in operations, coordination, and eCommerce support within the Amazon ecosystem. With training from Freight Course 101, I’ve gained hands-on experience in dispatching, shipment coordination, and the use of industry-standard tools.</p><p>I focus on keeping freight operations streamlined by supporting brokers and logistics teams with clear communication, accurate tracking, and reliable execution. </p><p>From load coordination to final delivery, I ensure every shipment is managed with precision, urgency, and attention to detail.</p>",
+            "container_width": 1200,
+            "desktop_width_percent": 100,
+            "column_gap": 60,
+            "mobile_gap": 30,
+            "padding_top": 60,
+            "padding_bottom": 60,
+            "heading_size": 36,
+            "heading_spacing": 24,
+            "text_size": 16,
+            "background_color": "#ffffff",
+            "heading_color": "#0e1b4d",
+            "text_color": "#0e1b4d"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_b248e2c_bk4LrM"
+      ],
+      "settings": {}
     }
   },
   "order": [
-    "image_with_text_pQKBDw",
-    "main"
+    "main",
+    "177666789672d3db0b"
   ]
 }
