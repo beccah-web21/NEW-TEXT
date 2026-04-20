@@ -59,6 +59,35 @@
     "17766656521bb6f19f": {
       "type": "_blocks",
       "blocks": {
+        "ai_gen_block_25c5c68_6QHatE": {
+          "type": "ai_gen_block_25c5c68",
+          "settings": {
+            "logo_text": "Freight Beccah",
+            "logo_size": 24,
+            "logo_weight": "700",
+            "logo_color": "#0e1b4d",
+            "services_label": "Services",
+            "services_link": "shopify://pages/services",
+            "portfolio_label": "Portfolio",
+            "portfolio_link": "shopify://pages/portfolio",
+            "about_label": "About",
+            "about_link": "shopify://pages/about",
+            "contact_label": "Contact",
+            "contact_link": "shopify://pages/contact",
+            "menu_size": 16,
+            "menu_weight": "500",
+            "menu_color": "#0e1b4d",
+            "menu_hover_color": "#4770db",
+            "menu_spacing": 30,
+            "background_color": "#ffffff",
+            "position": "sticky",
+            "padding_vertical": 20,
+            "padding_horizontal": 20,
+            "max_width": 1200,
+            "shadow_opacity": 0.1
+          },
+          "blocks": {}
+        },
         "ai_gen_block_117246a_kLCxJN": {
           "type": "ai_gen_block_117246a",
           "settings": {
@@ -95,6 +124,7 @@
         }
       },
       "block_order": [
+        "ai_gen_block_25c5c68_6QHatE",
         "ai_gen_block_117246a_kLCxJN"
       ],
       "name": "#header",
