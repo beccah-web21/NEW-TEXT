@@ -74,7 +74,7 @@
             "link_4_text": "Portfolio",
             "link_4_url": "shopify://pages/portfolio",
             "link_5_text": "About",
-            "link_5_url": "shopify://pages/portfolio",
+            "link_5_url": "shopify://pages/about",
             "link_6_text": "Contact",
             "link_6_url": "shopify://pages/contact",
             "position": "sticky",
