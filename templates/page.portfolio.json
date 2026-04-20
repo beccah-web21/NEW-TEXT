@@ -11,49 +11,44 @@
   "sections": {
     "main": {
       "type": "main-page",
-      "disabled": true,
       "settings": {
         "padding_top": 36,
         "padding_bottom": 28
       }
     },
-    "17766670573f27e337": {
+    "1776667596d043766f": {
       "type": "_blocks",
       "blocks": {
-        "ai_gen_block_d571055_PptB6R": {
-          "type": "ai_gen_block_d571055",
+        "ai_gen_block_c99fe2b_hMiRCz": {
+          "type": "ai_gen_block_c99fe2b",
           "settings": {
-            "padding_top": 40,
-            "padding_bottom": 92,
-            "padding_horizontal": 20,
-            "title": "Training Portfolio",
-            "title_size": 44,
-            "heading_height": 80,
-            "title_color": "#0e1b4d",
-            "image_1": "shopify://shop_images/freight_operations_specialist-rebeccah_gonzales_10.png",
-            "image_2": "shopify://shop_images/freight_operations_specialist-rebeccah_gonzales_14.png",
-            "image_3": "shopify://shop_images/freight_operations_specialist-rebeccah_gonzales_17.png",
-            "image_4": "shopify://shop_images/freight_operations_specialist-rebeccah_gonzales_18.png",
-            "image_height": 680,
-            "image_gap": 28,
-            "image_border_radius": 10,
-            "arrow_size": 50,
-            "arrow_offset": 20,
-            "arrow_background": "#ffffff",
-            "arrow_hover_background": "#eff0f5",
-            "arrow_color": "#0e1b4d"
+            "container_width": 1200,
+            "content_gap": 60,
+            "padding_top": 60,
+            "padding_bottom": 60,
+            "background_color": "#ffffff",
+            "image": "shopify://shop_images/me.jpg",
+            "image_border_radius": 20,
+            "heading": "Get To Know Beccah",
+            "heading_size": 36,
+            "heading_color": "#0e1b4d",
+            "heading_spacing": 25,
+            "text": "<p>Behind every on-time delivery is a system that’s organized, responsive, and built to run efficiently — that’s the standard I bring to every shipment.</p><p>I’m Rebeccah Gonzales, a Freight Operations Specialist with a strong foundation in operations, coordination, and eCommerce support within the Amazon ecosystem. With training from Freight Course 101, I’ve gained hands-on experience in dispatching, shipment coordination, and the use of industry-standard tools.</p><p>I focus on keeping freight operations streamlined by supporting brokers and logistics teams with clear communication, accurate tracking, and reliable execution. </p><p>From load coordination to final delivery, I ensure every shipment is managed with precision, urgency, and attention to detail.</p>",
+            "text_size": 16,
+            "text_color": "#0e1b4d",
+            "text_padding": 20
           },
           "blocks": {}
         }
       },
       "block_order": [
-        "ai_gen_block_d571055_PptB6R"
+        "ai_gen_block_c99fe2b_hMiRCz"
       ],
       "settings": {}
     }
   },
   "order": [
     "main",
-    "17766670573f27e337"
+    "1776667596d043766f"
   ]
 }
