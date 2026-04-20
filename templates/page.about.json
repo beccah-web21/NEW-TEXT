@@ -9,6 +9,53 @@
  */
 {
   "sections": {
+    "image_with_text_pQKBDw": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_77fzQ8": {
+          "type": "heading",
+          "settings": {
+            "heading": "About Me",
+            "heading_size": "h1"
+          }
+        },
+        "text_PfLQcw": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Welcome to my story. Share your journey, values, and what makes you unique. This is your space to connect with your audience and tell them why they should care about your brand or business.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_jCiLLF": {
+          "type": "button",
+          "settings": {
+            "button_label": "Learn More",
+            "button_link": "",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_77fzQ8",
+        "text_PfLQcw",
+        "button_jCiLLF"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "main": {
       "type": "main-page",
       "name": "About",
@@ -19,6 +66,7 @@
     }
   },
   "order": [
+    "image_with_text_pQKBDw",
     "main"
   ]
 }
