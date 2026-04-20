@@ -1,6 +1,560 @@
+{% doc %}
+  @prompt
+    Create a clean, premium CTA section for  with a professional, client-focused tone. Include a strong headline and a short line emphasizing reliability, efficiency, and support for freight brokers and logistics teams. Add two buttons: a primary CTA (“Request a Quote”) and a secondary CTA (“Get in Touch”). Keep the design minimal, modern, and conversion-focused, similar to a high-end logistics or agency website. Keep all text concise and impactful. each buttons should have a settings where i can put external links so they can redirected to another page when they see it. and the it should have an image background with overlay colors. make this section smaller , put a settings where i can adjust the position of the texts and the buttons and also where i can adjust the padding, width height of the section make it the same size of email newsletter section. duplicate the style of #cta section in the homepage. make the also put my email below the button and add icon. my email is beccah.gonzales.22@gmail.com
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-cta-section-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+  }
+
+  .ai-cta-background-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .ai-cta-background-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-cta-background-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+  }
+
+  .ai-cta-background-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-cta-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: {{ block.settings.overlay_color }};
+    opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};
+    z-index: 1;
+  }
+
+  .ai-cta-container-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 2;
+    padding: {{ block.settings.padding_top }}px {{ block.settings.padding_horizontal }}px {{ block.settings.padding_bottom }}px;
+    min-height: {{ block.settings.section_height }}px;
+    display: flex;
+    align-items: {{ block.settings.vertical_alignment }};
+    justify-content: {{ block.settings.horizontal_alignment }};
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-cta-content-{{ ai_gen_id }} {
+    max-width: {{ block.settings.content_width }}px;
+    width: 100%;
+  }
+
+  .ai-cta-heading-{{ ai_gen_id }} {
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size }}px;
+    font-weight: 700;
+    margin: 0 0 16px;
+    line-height: 1.2;
+  }
+
+  .ai-cta-subtext-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    margin: 0 0 24px;
+    line-height: 1.5;
+  }
+
+  .ai-cta-buttons-{{ ai_gen_id }} {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: {{ block.settings.text_alignment }};
+  }
+
+  .ai-cta-button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: {{ block.settings.button_radius }}px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+
+  .ai-cta-button-primary-{{ ai_gen_id }} {
+    background-color: {{ block.settings.primary_btn_bg }};
+    color: {{ block.settings.primary_btn_text }};
+    border-color: {{ block.settings.primary_btn_bg }};
+  }
+
+  .ai-cta-button-primary-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.primary_btn_hover_bg }};
+    border-color: {{ block.settings.primary_btn_hover_bg }};
+    color: {{ block.settings.primary_btn_hover_text }};
+  }
+
+  .ai-cta-button-secondary-{{ ai_gen_id }} {
+    background-color: transparent;
+    color: {{ block.settings.secondary_btn_text }};
+    border-color: {{ block.settings.secondary_btn_border }};
+  }
+
+  .ai-cta-button-secondary-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.secondary_btn_hover_bg }};
+    color: {{ block.settings.secondary_btn_hover_text }};
+    border-color: {{ block.settings.secondary_btn_hover_bg }};
+  }
+
+  .ai-cta-email-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: {{ block.settings.text_alignment }};
+    gap: 8px;
+    margin-top: 24px;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+  }
+
+  .ai-cta-email-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .ai-cta-email-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  .ai-cta-email-link-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    text-decoration: none;
+  }
+
+  .ai-cta-email-link-{{ ai_gen_id }}:hover {
+    text-decoration: underline;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-cta-container-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_top | times: 0.6 }}px {{ block.settings.padding_horizontal | times: 0.6 }}px {{ block.settings.padding_bottom | times: 0.6 }}px;
+      min-height: {{ block.settings.section_height | times: 0.7 }}px;
+    }
+
+    .ai-cta-heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.7 }}px;
+    }
+
+    .ai-cta-subtext-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+
+    .ai-cta-buttons-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .ai-cta-button-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-cta-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-cta-background-{{ ai_gen_id }}">
+    {% if block.settings.background_image %}
+      <img
+        src="{{ block.settings.background_image | image_url: width: 2000 }}"
+        alt="{{ block.settings.background_image.alt | escape }}"
+        loading="lazy"
+        width="{{ block.settings.background_image.width }}"
+        height="{{ block.settings.background_image.height }}"
+      >
+    {% else %}
+      <div class="ai-cta-background-placeholder-{{ ai_gen_id }}">
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ai-cta-overlay-{{ ai_gen_id }}"></div>
+
+  <div class="ai-cta-container-{{ ai_gen_id }}">
+    <div class="ai-cta-content-{{ ai_gen_id }}">
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-cta-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+      {% endif %}
+
+      {% if block.settings.subtext != blank %}
+        <p class="ai-cta-subtext-{{ ai_gen_id }}">{{ block.settings.subtext }}</p>
+      {% endif %}
+
+      <div class="ai-cta-buttons-{{ ai_gen_id }}">
+        {% if block.settings.primary_btn_label != blank %}
+          <a
+            href="{{ block.settings.primary_btn_link }}"
+            class="ai-cta-button-{{ ai_gen_id }} ai-cta-button-primary-{{ ai_gen_id }}"
+          >
+            {{ block.settings.primary_btn_label }}
+          </a>
+        {% endif %}
+
+        {% if block.settings.secondary_btn_label != blank %}
+          <a
+            href="{{ block.settings.secondary_btn_link }}"
+            class="ai-cta-button-{{ ai_gen_id }} ai-cta-button-secondary-{{ ai_gen_id }}"
+          >
+            {{ block.settings.secondary_btn_label }}
+          </a>
+        {% endif %}
+      </div>
+
+      {% if block.settings.show_email %}
+        <div class="ai-cta-email-{{ ai_gen_id }}">
+          <div class="ai-cta-email-icon-{{ ai_gen_id }}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </div>
+          <a href="mailto:{{ block.settings.email_address }}" class="ai-cta-email-link-{{ ai_gen_id }}">
+            {{ block.settings.email_address }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Premium CTA section",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Ready to streamline your logistics?"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Reliable, efficient support for freight brokers and logistics teams"
+    },
+    {
+      "type": "header",
+      "content": "Primary button"
+    },
+    {
+      "type": "text",
+      "id": "primary_btn_label",
+      "label": "Text",
+      "default": "Request a Quote"
+    },
+    {
+      "type": "url",
+      "id": "primary_btn_link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_bg",
+      "label": "Background",
+      "default": "#4770db"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_text",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_hover_bg",
+      "label": "Hover background",
+      "default": "#0e1b4d"
+    },
+    {
+      "type": "color",
+      "id": "primary_btn_hover_text",
+      "label": "Hover text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Secondary button"
+    },
+    {
+      "type": "text",
+      "id": "secondary_btn_label",
+      "label": "Text",
+      "default": "Get in Touch"
+    },
+    {
+      "type": "url",
+      "id": "secondary_btn_link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_text",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_border",
+      "label": "Border",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_hover_bg",
+      "label": "Hover background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_btn_hover_text",
+      "label": "Hover text",
+      "default": "#0e1b4d"
+    },
+    {
+      "type": "header",
+      "content": "Email contact"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_email",
+      "label": "Show email",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "email_address",
+      "label": "Email address",
+      "default": "beccah.gonzales.22@gmail.com"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Image"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#0e1b4d"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 70
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section height",
+      "min": 200,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "label": "Content width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Padding horizontal",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "horizontal_alignment",
+      "label": "Horizontal alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Button radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium CTA section"
+    }
+  ]
+}
 {% endschema %}
