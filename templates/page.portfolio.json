@@ -25,7 +25,7 @@
           "settings": {
             "padding_top": 40,
             "padding_bottom": 92,
-            "padding_horizontal": 20,
+            "padding_horizontal": 52,
             "title": "Training Portfolio",
             "title_size": 44,
             "heading_height": 80,
@@ -34,7 +34,7 @@
             "image_2": "shopify://shop_images/freight_operations_specialist-rebeccah_gonzales_14.png",
             "image_3": "shopify://shop_images/freight_operations_specialist-rebeccah_gonzales_17.png",
             "image_4": "shopify://shop_images/freight_operations_specialist-rebeccah_gonzales_18.png",
-            "image_height": 680,
+            "image_height": 580,
             "image_gap": 28,
             "image_border_radius": 10,
             "arrow_size": 50,
