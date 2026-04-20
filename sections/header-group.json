@@ -90,6 +90,7 @@
         },
         "ai_gen_block_117246a_kLCxJN": {
           "type": "ai_gen_block_117246a",
+          "disabled": true,
           "settings": {
             "logo_text": "Freight Beccah",
             "logo_link": "shopify://pages/home",
